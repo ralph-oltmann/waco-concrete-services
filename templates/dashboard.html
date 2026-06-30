@@ -1,0 +1,42 @@
+<h1>Waco Concrete Services Dashboard</h1>
+
+<h2>READY (Crew 1 Queue)</h2>
+
+{% for job in ready %}
+<div>
+  <b>{{ job[1] }}</b> - {{ job[2] }}<br>
+  Priority: {{ job[5] }}<br>
+  <a href="/update/{{ job[0] }}/ACTIVE">Start</a>
+</div>
+<hr>
+{% endfor %}
+
+<h2>ACTIVE</h2>
+
+{% for job in active %}
+<div style="border:2px solid green; padding:10px;">
+  <b>{{ job[1] }}</b><br>
+
+  <form method="POST" action="/wait/{{ job[0] }}">
+    <input name="reason" placeholder="Waiting reason">
+    <button type="submit">Send to WAITING</button>
+  </form>
+
+  <a href="/update/{{ job[0] }}/COMPLETED">Complete</a>
+</div>
+<hr>
+{% endfor %}
+
+<h2>WAITING</h2>
+
+{% for job in waiting %}
+<div style="border:1px solid orange; padding:10px;">
+  <b>{{ job[1] }}</b><br>
+  Reason: {{ job[7] }}<br>
+  <a href="/update/{{ job[0] }}/READY">Resume</a>
+</div>
+<hr>
+{% endfor %}
+
+<br>
+<a href="/add">+ Add Job</a>
